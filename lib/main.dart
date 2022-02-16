@@ -6,10 +6,10 @@ void main() {
     MaterialApp(
       debugShowCheckedModeBanner: false,
       home: Scaffold(
-        backgroundColor: Colors.teal,
+        backgroundColor: Colors.cyan,
         appBar: AppBar(
-          title: const Text('My Dice'),
-          backgroundColor: Colors.teal,
+          title: const Text('My Dice',style: TextStyle(fontFamily: 'Quicksand',fontSize: 35),),
+          backgroundColor: Colors.blue,
         ),
         body: const DicePage(),
       ),
@@ -25,43 +25,94 @@ class DicePage extends StatefulWidget {
 }
 
 class _DicePageState extends State<DicePage> {
-  int leftDiceNumber = 1;
-  int rightDiceNumber = 1;
+  int Dice1Number = 0;
+  int Dice2Number = 0;
+  int Dice3Number = 0;
+  int Sum = 0 ;
 
-  void changeDiceFace() {
+  void changeDice1Face() {
     setState(() {
-      leftDiceNumber = Random().nextInt(6) + 1;
-      rightDiceNumber = Random().nextInt(6) + 1;
+      Dice1Number = Random().nextInt(6) + 1;
+    });
+  }
+  void changeDice2Face() {
+    setState(() {
+      Dice2Number = Random().nextInt(6) + 1;
+    });
+  }
+  void changeDice3Face() {
+    setState(() {
+      Dice3Number = Random().nextInt(6) + 1;
     });
   }
 
   @override
   Widget build(BuildContext context) {
-    return Center(
-      child: Row(
-        children: <Widget>[
-          Expanded(
-            child: TextButton(
-              child: Image.asset(
-                'images/dice$leftDiceNumber.png',
+    Sum = Dice1Number+Dice2Number+Dice3Number;
+    return Column(
+        children:[
+          SizedBox(height: 20),
+          Center(
+          child: Row(
+            children: <Widget>[
+              Expanded(
+                child: TextButton(
+                  child: Image.asset(
+                    'images/dice$Dice1Number.png',
+                  ),
+                  onPressed: () {
+                    changeDice1Face();
+                  },
+                ),
               ),
-              onPressed: () {
-                changeDiceFace();
-              },
+              Expanded(
+                child: TextButton(
+                  child: Image.asset(
+                    'images/dice$Dice2Number.png',
+                  ),
+                  onPressed: () {
+                    changeDice2Face();
+                  },
+                ),
+              ),
+              Expanded(
+                child: TextButton(
+                  child: Image.asset(
+                    'images/dice$Dice3Number.png',
+                  ),
+                  onPressed: () {
+                    changeDice3Face();
+                  },
+                ),
+              ),
+            ],
+          ),
+        ),
+          SizedBox(height: 20),
+          Text(
+            'Sum = $Sum',
+            style: TextStyle(fontFamily: 'Quicksand',fontSize: 35,color: Colors.white),
+          ),
+          SizedBox(height: 20),
+          ElevatedButton(
+            style: ElevatedButton.styleFrom(
+              textStyle: const TextStyle(fontFamily: 'Quicksand',fontSize: 35,color: Colors.white),
+
+              primary: Colors.orange.shade300,
+              onPrimary: Colors.orange.shade700,
+            ),
+            onPressed: () {
+              setState(() {
+                changeDice1Face();
+                changeDice2Face();
+                changeDice3Face();
+              });
+            },
+            child: const Text(
+                'Reroll',
             ),
           ),
-          Expanded(
-            child: TextButton(
-              child: Image.asset(
-                'images/dice$rightDiceNumber.png',
-              ),
-              onPressed: () {
-                changeDiceFace();
-              },
-            ),
-          ),
-        ],
-      ),
+      ],
     );
   }
 }
